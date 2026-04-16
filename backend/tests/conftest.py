@@ -13,6 +13,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 
 from app.db.base import Base
 from app.db.session import get_db
+from app.db.session import engine as production_engine
 from app.main import app
 from app.modules.topics.models import (
     Entity,
@@ -45,6 +46,8 @@ async def setup_db():
     yield
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
+    await engine.dispose()
+    await production_engine.dispose()
 
 
 @pytest.fixture

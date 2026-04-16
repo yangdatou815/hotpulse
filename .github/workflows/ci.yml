@@ -21,19 +21,15 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install pytest pytest-asyncio==0.23.8 httpx aiosqlite eval_type_backport pytest-cov pytest-timeout
+          pip install pytest pytest-asyncio==0.23.8 httpx aiosqlite eval_type_backport pytest-cov
       - name: Compile check
         run: python -m compileall app workers
       - name: Run tests with coverage
         env:
           DATABASE_URL: "sqlite+aiosqlite:///./test.db"
         run: |
-          echo "Python: $(python --version)"
-          echo "DATABASE_URL=$DATABASE_URL"
-          pip list | grep -i async
-          python -m pytest tests/ -v --tb=short --timeout=30 \
-            --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml \
-            || python -m pytest tests/ -v --tb=long --timeout=30
+          python -m pytest tests/ -v --tb=short \
+            --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml
       - name: Upload coverage artifact
         if: always()
         uses: actions/upload-artifact@v4
