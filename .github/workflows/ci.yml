@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install pytest pytest-asyncio httpx aiosqlite eval_type_backport pytest-cov pytest-timeout
+          pip install pytest pytest-asyncio==0.23.8 httpx aiosqlite eval_type_backport pytest-cov pytest-timeout
       - name: Compile check
         run: python -m compileall app workers
       - name: Run tests with coverage
