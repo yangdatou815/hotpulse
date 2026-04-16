@@ -1,0 +1,9 @@
+"""Tests for /api/v1/health endpoint."""
+import pytest
+
+
+async def test_health(client):
+    resp = await client.get("/api/v1/health")
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body == {"status": "ok"}
