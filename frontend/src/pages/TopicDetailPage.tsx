@@ -121,7 +121,7 @@ export function TopicDetailPage() {
                   </a>
                 </h4>
                 <div className="src-pub">
-                  {s.publisher} &middot; {fmtDate(s.publish_time)}
+                  {s.publisher} &middot; {fmtDate(s.publish_time, locale)}
                 </div>
                 <div className="src-snippet">{s.snippet}</div>
               </div>
