@@ -24,6 +24,8 @@ jobs:
       - name: Compile check
         run: python -m compileall app workers
       - name: Run tests with coverage
+        env:
+          DATABASE_URL: "sqlite+aiosqlite:///./test.db"
         run: |
           python -m pytest tests/ -v --tb=short \
             --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml
