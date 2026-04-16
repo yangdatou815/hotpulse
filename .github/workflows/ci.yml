@@ -9,6 +9,7 @@ on:
 jobs:
   backend-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     defaults:
       run:
         working-directory: backend
@@ -20,14 +21,14 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install pytest pytest-asyncio httpx aiosqlite eval_type_backport pytest-cov
+          pip install pytest pytest-asyncio httpx aiosqlite eval_type_backport pytest-cov pytest-timeout
       - name: Compile check
         run: python -m compileall app workers
       - name: Run tests with coverage
         env:
           DATABASE_URL: "sqlite+aiosqlite:///./test.db"
         run: |
-          python -m pytest tests/ -v --tb=short \
+          python -m pytest tests/ -v --tb=short --timeout=30 \
             --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml
       - name: Upload coverage artifact
         if: always()
