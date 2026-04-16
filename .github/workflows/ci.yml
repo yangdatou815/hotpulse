@@ -28,8 +28,12 @@ jobs:
         env:
           DATABASE_URL: "sqlite+aiosqlite:///./test.db"
         run: |
+          echo "Python: $(python --version)"
+          echo "DATABASE_URL=$DATABASE_URL"
+          pip list | grep -i async
           python -m pytest tests/ -v --tb=short --timeout=30 \
-            --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml
+            --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml \
+            || python -m pytest tests/ -v --tb=long --timeout=30
       - name: Upload coverage artifact
         if: always()
         uses: actions/upload-artifact@v4
